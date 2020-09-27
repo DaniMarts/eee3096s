@@ -23,7 +23,7 @@ def secondsToStr(elapsed=None):
 def startlog():
     global start
     start = time()
-    log("Starting log")
+    # log("Starting log")
 
 
 def log(s, elapsed=None):
@@ -34,9 +34,38 @@ def log(s, elapsed=None):
         print("Elapsed time:", elapsed)
     print(line)
 
-def endlog():
+def endlog(last_time=False):
     global start
     end = time()
     elapsed = end-start
-    log("End Program", secondsToStr(elapsed))
+    # log("End Program", secondsToStr(elapsed))
 
+    # writing the elapsed microseconds to a csv file
+    with open("sheet.csv", "r+") as sheet:
+        # file = sheet.read()
+        lines = sheet.readlines()
+        # pos = file.find("Python,")
+
+        for i in range(len(lines)):
+            if lines[i].startswith("Python"):
+                end_pos = sheet.read().find("Python,") + len(lines[i]) +  1
+                sheet.seek(end_pos)
+                break
+                # if lines[i] == "Pyhton," or lines[i] == "Python,/n":  # only if there is nothing else on that line
+                #     sheet.seek(pos + len("Python,"))  # move the cursor to the end of that line
+                #     break  # don't go looking 
+                # else:  # if that line starts with "Python," but there are other things on it, that means that line 
+                #     pass
+                #     lines.r
+
+        # else:  # if there was no line starting with "Python," (the loop didn't break)
+        #     lines.append("Python,")
+        #     sheet.writelines(lines)  # write all the lines, with "Python,"as the last line (this is where the cursor will be)
+
+        # Putting the cursor at the end of the corresponding line
+        # pos = sheet.read().find("Python,") + len("Python,")
+        # sheet.seek(pos)
+
+        sheet.write(f"{elapsed*1000:.22f},")  # writing the time to the end of the Python line
+        if last_time:
+            sheet.write("\n")
