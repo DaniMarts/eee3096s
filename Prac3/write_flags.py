@@ -1,15 +1,15 @@
 import sys  # just to read command line arguments
-from write_line_to_file import write_line_to_csv
+from write_line_to_file import write_line_to_file
 
 def write_flags(c_flags):
     print(c_flags)
-    write_line_to_csv("sheet.csv", c_flags)
+    write_line_to_file("sheet.csv", c_flags)
 
 def write_values(c_flags):
     with open("temp.txt", "r") as temp:  # this file will be deleted by makefile after the writing operation is done
         line = temp.readline()  # the values should be on the first line
         values = line.split(",")
-        write_line_to_csv("sheet.csv", c_flags, values)
+        write_line_to_file("sheet.csv", c_flags, values)
 
 if __name__ == "__main__":
     if sys.argv[1] == "flags":

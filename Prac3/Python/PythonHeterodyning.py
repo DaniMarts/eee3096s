@@ -16,9 +16,9 @@ import sys
 
 sys.path.append("../")  # trying to import a module outside the current folder sometimes causes errors
 try:  
-    from Prac3.write_line_to_file import write_line_to_csv  
+    from Prac3.write_line_to_file import write_line_to_file  
 except ModuleNotFoundError:
-    from write_line_to_file import write_line_to_csv
+    from write_line_to_file import write_line_to_file
 
 # Define values.
 c = carrier
@@ -53,5 +53,5 @@ if __name__ == "__main__":
     # after main runs, the execution times will be saved on a csv file. The times must be under the apropriate header, "Python" in this case.
     times = [*map(lambda elapsed: f"{elapsed*1e3:.22f}", times)]  # this lambda is just to format the times to 22 decimal places
     
-    write_line_to_csv("sheet.csv", keywords=["Python"], values=times)
+    write_line_to_file("sheet.csv", keywords=["Python"], values=times)
     
