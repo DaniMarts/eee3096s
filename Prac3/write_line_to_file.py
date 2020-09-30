@@ -1,8 +1,10 @@
-def write_line_to_csv(csv_path, keywords=[], values=[]):
+import sys
+
+def write_line_to_csv(csv_path, keywords=[], values=[], line_to_add=None):
     
-    if len(values) == 0:
+    if not line_to_add:
         line_to_add = " ".join(keywords) + ','  # separate each keyword with a space. This will be the header for the new line
-        line_to_add += ','.join(values) + ',\n'  # if values are given, then write the values to the line too
+        line_to_add += ','.join(values) + '\n'  # if values are given, then write the values to the line too
 
     try:
         with open(csv_path, "r+") as csv:  # opening the file
@@ -32,3 +34,4 @@ def write_line_to_csv(csv_path, keywords=[], values=[]):
     except FileNotFoundError: # if the file was not found, create a new one and add the execution times to it
         with open(csv_path, "w") as csv:
             csv.write(line_to_add)
+

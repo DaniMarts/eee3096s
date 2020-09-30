@@ -1,6 +1,6 @@
 .RECIPEPREFIX +=
 CC = g++ #arm-linux-gnueabihf-g++
-CFLAGS = -lm -lrt -g
+CFLAGS = -lm -lrt -Og -funroll-loops
 INCLUDE = -ITools
 REPEAT = 3  # the number of times the programs will run, for cache warming
 
@@ -31,21 +31,25 @@ clean:
     rm -rf $(PROG) $(OBJS) 
 
 run_many:
-    # a simple shell script to run CHeterodyning multiple times
+    # a simple shell script to run CHeterodyning multiple times, writting the
     counter=$(REPEAT); \
-    cd .. && python3 write_flags.py $(CFLAGS); \
+    cd .. && python3 write_flags.py flags unthreaded $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
         do \
             C/bin/CHeterodyning; \
             counter=$$(( $$counter - 1)); \
-        done
+        done; \
+    python3 write_flags.py values unthreaded $(CFLAGS); \
+    rm temp.txt
 
 run_threaded_many:
     # a simple shell script to run CHeterodyning_threaded multiple times
     counter=$(REPEAT); \
-    python3 mypy.py $(CFLAGS); \
+    cd .. && python3 write_flags.py flags threads $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
         do \
-            bin/CHeterodyning; \
+            C/bin/CHeterodyning; \
             counter=$$(( $$counter - 1)); \
-        done
+        done; \
+    python3 write_flags.py values threads $(CFLAGS); \
+    rm temp.txt
