@@ -1,7 +1,8 @@
 .RECIPEPREFIX +=
-CC = arm-linux-gnueabihf-g++
-CFLAGS = -lm -lrt
+CC = g++ #arm-linux-gnueabihf-g++
+CFLAGS = -lm -lrt -g
 INCLUDE = -ITools
+REPEAT = 3  # the number of times the programs will run, for cache warming
 
 PROG = bin/*
 OBJS = obj/*
@@ -28,3 +29,23 @@ run_threaded:
 
 clean: 
     rm -rf $(PROG) $(OBJS) 
+
+run_many:
+    # a simple shell script to run CHeterodyning multiple times
+    counter=$(REPEAT); \
+    cd .. && python3 write_flags.py $(CFLAGS); \
+    while [ $$counter -gt 0 ]; \
+        do \
+            C/bin/CHeterodyning; \
+            counter=$$(( $$counter - 1)); \
+        done
+
+run_threaded_many:
+    # a simple shell script to run CHeterodyning_threaded multiple times
+    counter=$(REPEAT); \
+    python3 mypy.py $(CFLAGS); \
+    while [ $$counter -gt 0 ]; \
+        do \
+            bin/CHeterodyning; \
+            counter=$$(( $$counter - 1)); \
+        done

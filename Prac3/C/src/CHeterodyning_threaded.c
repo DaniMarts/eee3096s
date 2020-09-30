@@ -17,7 +17,7 @@ void* Thread_Main(void* Parameter){
 
 
 // Point of entry into program
-int main(int argc, char** argv){
+int main(){
     int j;
     // Initialise everything that requires initialisation
     tic();
@@ -46,9 +46,14 @@ int main(int argc, char** argv){
     }
 
   // No more active threads, so no more critical sections required
-
+	double t = toc();
   printf("All threads have quit\n");
-  printf("Time taken for threads to run = %lg ms\n", toc()/1e-3);
+  printf("Time taken for threads to run = %lg ms\n", t/1e-3);
+
+	// printing the execution times into a temporary txt file
+	FILE *fptr = fopen("temp.txt", "a");
+	fprintf(fptr, "%.22f,", t*1000);  // printing the times with 22 decimal places
+	fclose(fptr);
 
   return 0;
 }
