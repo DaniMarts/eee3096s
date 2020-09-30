@@ -2,7 +2,6 @@ import sys  # just to read command line arguments
 from write_line_to_file import write_line_to_file
 
 def write_flags(c_flags):
-    print(c_flags)
     write_line_to_file("sheet.csv", c_flags)
 
 def write_values(c_flags):

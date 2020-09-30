@@ -1,7 +1,11 @@
 .RECIPEPREFIX +=
 CC = g++ #arm-linux-gnueabihf-g++
-CFLAGS = -lm -lrt -Og -funroll-loops
+CFLAGS = -lm -lrt -Og -funroll-loops  
 INCLUDE = -ITools
+
+# this bit-width and thread-count will be modified by run_tests.py, to run for different bit-widths and thread-counts, respectively
+BIT_WIDTH = __fp16
+THREAD_COUNT =
 REPEAT = 3  # the number of times the programs will run, for cache warming
 
 PROG = bin/*
@@ -33,24 +37,24 @@ clean:
 run_many:
     # a simple shell script to run CHeterodyning multiple times, writting the
     counter=$(REPEAT); \
-    cd .. && python3 write_flags.py flags unthreaded $(CFLAGS) ; \
+    cd .. && python3 write_flags.py flags unthreaded $(BIT_WIDTH) $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
         do \
             C/bin/CHeterodyning; \
             counter=$$(( $$counter - 1)); \
         done; \
-    python3 write_flags.py values unthreaded $(CFLAGS); \
+    python3 write_flags.py values unthreaded $(BIT_WIDTH) $(CFLAGS); \
     rm temp.txt
 
 run_threaded_many:
     # a simple shell script to run CHeterodyning_threaded multiple times
     counter=$(REPEAT); \
-    cd .. && python3 write_flags.py flags threads $(CFLAGS) ; \
+    cd .. && python3 write_flags.py flags threads $(BIT_WIDTH) $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
         do \
             C/bin/CHeterodyning; \
             counter=$$(( $$counter - 1)); \
         done; \
-    python3 write_flags.py values threads $(CFLAGS); \
+    python3 write_flags.py values threads $(BIT_WIDTH) $(CFLAGS); \
     rm temp.txt
 

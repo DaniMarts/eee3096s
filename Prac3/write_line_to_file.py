@@ -1,6 +1,6 @@
 import sys
 
-def write_line_to_file(csv_path, keywords=[], values=[], line_to_add=None):
+def write_line_to_file(file_path, keywords=[], values=[], line_to_add=None):
     just_write_line = False
 
     if not line_to_add:
@@ -10,8 +10,8 @@ def write_line_to_file(csv_path, keywords=[], values=[], line_to_add=None):
         just_write_line = True
 
     try:
-        with open(csv_path, "r+") as csv:  # opening the file
-            lines = csv.readlines()
+        with open(file_path, "r+") as file:  # opening the file
+            lines = file.readlines()
 
             if just_write_line:
                 stop_loop = False
@@ -20,7 +20,7 @@ def write_line_to_file(csv_path, keywords=[], values=[], line_to_add=None):
                         break
                     for keyword in keywords:
                         if keyword in lines[i]:
-                            lines[i] = line_to_add
+                            lines[i] = line_to_add  # as long as one of the keywords is there, that is the correct line
                             stop_loop = True
                             break
 
@@ -43,11 +43,11 @@ def write_line_to_file(csv_path, keywords=[], values=[], line_to_add=None):
                 else:  # if there was no line starting with the header (the loop didn't break)
                     lines.append(line_to_add)
 
-            csv.seek(0)
-            csv.truncate()  # clearing the file and rewriting the contents
-            csv.writelines(lines)  # rewrite the file.
+            file.seek(0)
+            file.truncate()  # clearing the file and rewriting the contents
+            file.writelines(lines)  # rewrite the file.
 
     except FileNotFoundError: # if the file was not found, create a new one and add the execution times to it
-        with open(csv_path, "w") as csv:
-            csv.write(line_to_add)
+        with open(file_path, "w") as file:
+            file.write(line_to_add)
 
