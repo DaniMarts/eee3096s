@@ -22,7 +22,7 @@ def main():
         # iterating over the bit-widths
         for bit_width in bit_widths:
             if bit_width == '__fp16':
-                # flag += ' ' + "-mfp16-format=ieee"
+                flag += ' ' + "-mfp16-format=ieee"
                 type = 'float'
             else:
                 type = bit_width
