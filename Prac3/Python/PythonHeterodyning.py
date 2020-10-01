@@ -31,7 +31,7 @@ def main(last_time=False):  # when calling main for the last time, last_time wil
     print("There are {} samples".format(len(c)))
     print("using type {}".format(type(data[0])))
     
-    iterations = 10  # the number of times execution will be timed
+    iterations = 3  # the number of times execution will be timed
 
     for _ in range(iterations):
         Timing.startlog()

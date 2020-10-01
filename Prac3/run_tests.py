@@ -7,6 +7,9 @@ c_flags = list(product(['-O0', '-O1', '-O2', '-Ofast', '-Os', '-Og'], ['', '-fun
 bit_widths = ['double', 'float', '__fp16']
 thread_counts = [1, 2, 4, 8, 16, 32]
 
+# testing the python script
+subprocess.run(["python3", "Python/PythonHeterodyning.py"])
+
 os.chdir('C')
 type = ''
 
@@ -23,35 +26,24 @@ for combo in c_flags:
             type = bit_width
         
         # chaning the compiler flags in the makefile
-        # write_line_to_file("makefile", keywords=['CFLAGS'], line_to_add=f"CFLAGS = {flag}\n")  # repurposing the function
+        write_line_to_file("makefile", keywords=['CFLAGS'], line_to_add=f"CFLAGS = {flag}\n")  # repurposing the function
 
-        #region changing the data types (bit-widths) in the C files
+        # changing the data types (bit-widths) in the C files
         write_line_to_file("src/globals.h", keywords=['TYPE'], line_to_add=f"#define TYPE {type}\n") 
 
-        # with open("src/globals.h", "r+") as f:  # this is the only file that needs to be modified, as the datatype only depends on TYPE, which is defined there
-        #     lines = f.readlines()
-        #     for num in range(len(lines)):
-        #         if "define TYPE" in (lines[num]):
-        #             lines[num] = f"#define TYPE {type}\n"
-        #             break
-            
-        #     # rewriting the file
-        #     f.seek(0)
-        #     f.truncate()
-        #     f.writelines(lines)
-        #endregion
-
         # changing the bit-width in the makefile, for annotation purposes only
-        # write_line_to_file("makefile", keywords=['BIT_WIDTH'], line_to_add=f"BIT_WIDTH = {bit_width}\n")
+        write_line_to_file("makefile", keywords=['BIT_WIDTH'], line_to_add=f"BIT_WIDTH = {bit_width}\n")
 
-        # iterating over the thread-counts
-        # for threads in thread_counts:
-            
-        # running make with the current flags, for unthreaded, and then running it
+        # calling make with the current flags, for unthreaded, and then running it
         # subprocess.run(['make'])
         # subprocess.run(['make', 'run_many'])
 
-        
-        # running make with the current flags, for threaded, and then running it
-        # subprocess.run(['make', 'threaded'])
-        # subprocess.run(['make', 'run_threaded_many'])
+        # iterating over the thread-counts
+        for threads in thread_counts:
+            write_line_to_file("src/CHeterodyning_threaded.h", keywords=['Thread_Count'], line_to_add=f"#define Thread_Count {threads}\n") 
+            # changing the thread-count in the makefile, for annotation purposes only
+            write_line_to_file("makefile", keywords=['THREAD_COUNT'], line_to_add=f"THREAD_COUNT = {threads}\n")
+            
+            # calling make with the current flags, for threaded, and then running it
+            subprocess.run(['make', 'threaded'])
+            subprocess.run(['make', 'run_threaded_many'])
