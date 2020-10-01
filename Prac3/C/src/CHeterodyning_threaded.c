@@ -67,22 +67,20 @@ int main(){
 #pragma GCC optimize ("O0")
 float calc_error(float array[SAMPLE_COUNT]){
     // using an array of floats because that's what python uses
-    float average_deviation = 0.0;
+    float error = 0.0;
 
     for (int i = 0; i<SAMPLE_COUNT; i++ ){
-        if (array[i] != 0.00000000000000000000000000000000000000000000)   // to avoid division by zero errors
-            average_deviation += fabs(result[i] - array[i])/array[i];
+        error += pow(result[i] - array[i], 2);
     }
     // on average, this is how much each result deviates from the python one
-    average_deviation /= SAMPLE_COUNT;
-    average_deviation *= 100;  // in %
+    error /= SAMPLE_COUNT;
 
     // printing the accuracy into a temporary txt file
     FILE *fptr = fopen("accuracy.txt", "w");
-    fprintf(fptr, "%.10f,", average_deviation);  // printing the times with 7 decimal places
+    fprintf(fptr, "%lg,", error);  // printing the error to a file
     fclose(fptr);
 
-    // return the average error as a percentage
-    return average_deviation;
+    // return the error
+    return error;
 }
 #pragma pop_options

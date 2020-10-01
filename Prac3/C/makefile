@@ -1,6 +1,6 @@
 .RECIPEPREFIX +=
-CC = g++ #arm-linux-gnueabihf-g++
-CFLAGS = -lm -lrt -Ofast
+CC = arm-linux-gnueabihf-g++
+CFLAGS = -lm -lrt -Og -funroll-loops
 INCLUDE = -ITools
 
 # this bit-width and thread-count will be modified by run_tests.py, to run for different bit-widths and thread-counts, respectively
