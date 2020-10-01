@@ -5,7 +5,7 @@ from write_line_to_file import write_line_to_file
 
 def main():
     c_flags = list(product(['-O0', '-O1', '-O2', '-Ofast', '-Os', '-Og'], ['', '-funroll-loops']))  # combining the -O flags with -funroll-loop or nothing
-    bit_widths = ['double', 'float', '__fp16']
+    bit_widths = ['__fp16'] #['double', 'float', '__fp16']
     thread_counts = [1, 2, 4, 8, 16, 32]
 
 
@@ -22,16 +22,13 @@ def main():
         # iterating over the bit-widths
         for bit_width in bit_widths:
             if bit_width == '__fp16':
-                flag += ' ' + "-mfp16-format=ieee"
-                type = 'float'
-            else:
-                type = bit_width
+                flag += ' ' + "-mfp16-format=ieee"  # adding the flag only for __fp16. float and double don't need it
             
             # chaning the compiler flags in the makefile
             write_line_to_file("makefile", keywords=['CFLAGS'], line_to_add=f"CFLAGS = {flag}\n")  # repurposing the function
 
             # changing the data types (bit-widths) in the C files
-            write_line_to_file("src/globals.h", keywords=['TYPE'], line_to_add=f"#define TYPE {type}\n") 
+            write_line_to_file("src/globals.h", keywords=['TYPE'], line_to_add=f"#define TYPE {bit_width}\n") 
 
             # changing the bit-width in the makefile, for annotation purposes only
             write_line_to_file("makefile", keywords=['BIT_WIDTH'], line_to_add=f"BIT_WIDTH = {bit_width}\n")
