@@ -1,0 +1,8 @@
+bin/CHeterodyning
+Running Unthreaded Test
+Precision sizeof 4
+Total amount of samples: 100000
+Clock resolution: 100 ns
+Time: 0.610400 ms
+End Unthreaded Test
+800

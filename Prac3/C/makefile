@@ -1,12 +1,12 @@
 .RECIPEPREFIX +=
 CC = g++ #arm-linux-gnueabihf-g++
-CFLAGS = -lm -lrt -O0 
+CFLAGS = -lm -lrt -Ofast
 INCLUDE = -ITools
 
 # this bit-width and thread-count will be modified by run_tests.py, to run for different bit-widths and thread-counts, respectively
-BIT_WIDTH = float
+BIT_WIDTH = __fp16
 THREAD_COUNT = 32
-REPEAT = 3  # the number of times the programs will run, for cache warming
+REPEAT = 10  # the number of times the programs will run, for cache warming
 
 PROG = bin/*
 OBJS = obj/*
@@ -35,7 +35,7 @@ clean:
     rm -rf $(PROG) $(OBJS) 
 
 run_many:
-    # a simple shell script to run CHeterodyning multiple times, writting the
+    # a simple shell script to run CHeterodyning multiple times, writting the flags and then the values on the same line of a csv file on the root (..) folder
     counter=$(REPEAT); \
     cd .. && python3 write_flags.py flags unthreaded $(BIT_WIDTH) $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
@@ -47,7 +47,7 @@ run_many:
     rm temp.txt
 
 run_threaded_many:
-    # a simple shell script to run CHeterodyning_threaded multiple times
+    # a simple shell script to run CHeterodyning_threaded multiple times, writting the flags and then the values on the same line of a csv file on the root (..) folder
     counter=$(REPEAT); \
     cd .. && python3 write_flags.py flags $(THREAD_COUNT) threads $(BIT_WIDTH) $(CFLAGS) ; \
     while [ $$counter -gt 0 ]; \
