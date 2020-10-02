@@ -24,8 +24,8 @@ Special thanks to [KaliumPuceon](https://github.com/KaliumPuceon) for their cont
 - makefile
 
 ## Running the Prac automatically
-To run the benchmark automatically, just call ```run_tests.py''' from the command line. 
-This can be done either by entering ```python3 run_tests.py''' or ```./run_tests.py'''
+To run the benchmark automatically, just call ```run_tests.py``` from the command line. 
+This can be done either by entering ```python3 run_tests.py``` or ```./run_tests.py```
 
 ## Running the Prac manually
 #### Python
