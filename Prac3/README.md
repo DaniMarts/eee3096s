@@ -3,6 +3,10 @@ Working with benchmarking and architecture specific optimisations.
 Special thanks to [KaliumPuceon](https://github.com/KaliumPuceon) for their contributions to the Threaded C implementation.
 
 ## Folder Contents
+- run_tests.py - a python script to automate the benchmarking, logging the output into a csv file
+- sheet.csv = the file where the benchmark results will be after the automated benchmark
+- ohter auxiliary modules, for writing and reading from files
+
 #### Python
 - PythonHeterodyning.py  - Source code for python
 - Timing.py - Module that handles timing of the critical section
@@ -19,7 +23,11 @@ Special thanks to [KaliumPuceon](https://github.com/KaliumPuceon) for their cont
   - CHeterodyning_threaded.c and CHeterodyning_threaded.h are source for the threaded version
 - makefile
 
-## Running the Prac
+## Running the Prac automatically
+To run the benchmark automatically, just call ```run_tests.py''' from the command line. 
+This can be done either by entering ```python3 run_tests.py''' or ```./run_tests.py'''
+
+## Running the Prac manually
 #### Python
 To run the Python benchamrk, enter into the Python directory, and run
 ```./PythonHeterodyning.py```
@@ -34,7 +42,7 @@ All running of the C code is done through ```make``` commands.
 - ```make run_threaded``` will run the threaded version
 - ```make clean``` will clean the object and binary files that have been compiled
 
-## Editing configurations
+## Editing configurations manually
 To run some experiments for C, you need to make edits to certain files and then recompile the relevant practical (threaded/unthreaded).
 #### Editing bit widths
 To edit bit withs, you need to make edits to
