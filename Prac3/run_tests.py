@@ -4,9 +4,9 @@ from itertools import product  # to find all possible combinations between flags
 from write_line_to_file import write_line_to_file
 
 def main():
-    c_flags = list(product(['-O0', '-O1', '-O2', '-Ofast', '-Os', '-Og'], ['', '-funroll-loops']))  # combining the -O flags with -funroll-loop or nothing
-    bit_widths = ['__fp16'] #['double', 'float', '__fp16']
-    thread_counts = [1, 2, 4, 8, 16, 32]
+    c_flags = list(product(['-O0', '-O1', '-O2', '-O3', '-Ofast', '-Os', '-Og'], ['', '-funroll-loops']))  # combining the -O flags with -funroll-loop or nothing
+    bit_widths = ['double', 'float', '__fp16']
+    thread_counts = [2, 4, 8, 16, 32]
 
 
     # testing the python script
